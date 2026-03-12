@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import '../constans/app_constants.dart';
-import '../theme/app_theme.dart';
 
-// Loading Widget
 class LoadingWidget extends StatelessWidget {
-  const LoadingWidget({Key? key}) : super(key: key);
+  const LoadingWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,100 +9,48 @@ class LoadingWidget extends StatelessWidget {
   }
 }
 
-// Error Widget
 class CustomErrorWidget extends StatelessWidget {
   final String message;
   final VoidCallback? onRetry;
 
-  const CustomErrorWidget(
-      {Key? key, required this.message, this.onRetry})
-      : super(key: key);
+  const CustomErrorWidget({
+    super.key,
+    required this.message,
+    this.onRetry,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(AppConstants.paddingLarge),
+        padding: const EdgeInsets.all(24),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.error_outline,
-                size: 64, color: AppTheme.errorColor),
-            const SizedBox(height: AppConstants.paddingMedium),
+            const Icon(Icons.error_outline_rounded, size: 64, color: Colors.red),
+            const SizedBox(height: 16),
+            Text(
+              'Terjadi Kesalahan',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
             Text(
               message,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 16),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
             ),
             if (onRetry != null) ...[
-              const SizedBox(height: AppConstants.paddingLarge),
+              const SizedBox(height: 24),
               ElevatedButton.icon(
                 onPressed: onRetry,
-                icon: const Icon(Icons.refresh),
+                icon: const Icon(Icons.refresh_rounded),
                 label: const Text('Coba Lagi'),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                ),
               ),
             ],
           ],
-        ),
-      ),
-    );
-  }
-}
-
-// Empty Widget
-class EmptyWidget extends StatelessWidget {
-  final String message;
-  final IconData? icon;
-
-  const EmptyWidget(
-      {Key? key,
-      required this.message,
-      this.icon = Icons.inbox})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, size: 64, color: AppTheme.textSecondaryColor),
-          const SizedBox(height: AppConstants.paddingMedium),
-          Text(
-            message,
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 16),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// Custom Card
-class CustomCard extends StatelessWidget {
-  final Widget child;
-  final EdgeInsetsGeometry? padding;
-  final VoidCallback? onTap;
-
-  const CustomCard(
-      {Key? key,
-      required this.child,
-      this.padding,
-      this.onTap})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: InkWell(
-        onTap: onTap,
-        borderRadius:
-            BorderRadius.circular(AppConstants.radiusMedium),
-        child: Padding(
-          padding: padding ??
-              const EdgeInsets.all(AppConstants.paddingMedium),
-          child: child,
         ),
       ),
     );

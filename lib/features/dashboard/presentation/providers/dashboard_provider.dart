@@ -1,12 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../data/models/dashboard_model.dart';
-import '../../data/repositories/dashboard_repository.dart';
+import 'package:coba/features/dashboard/data/models/dashboard_model.dart';
+import 'package:coba/features/dashboard/data/repositories/dashboard_repository.dart';
 
 final dashboardRepositoryProvider = Provider<DashboardRepository>((ref) {
   return DashboardRepository();
 });
 
-final dashboardDataProvider = FutureProvider<DashboardData>((ref) async {
+final dashboardDataProvider =
+    FutureProvider.autoDispose<DashboardData>((ref) async {
   final repository = ref.watch(dashboardRepositoryProvider);
   return repository.getDashboardData();
 });
@@ -45,14 +46,13 @@ class DashboardNotifier extends StateNotifier<AsyncValue<DashboardData>> {
   }
 }
 
-final dashboardNotifierProvider =
-    StateNotifierProvider<DashboardNotifier, AsyncValue<DashboardData>>((ref) {
-  final repository = ref.watch(dashboardRepositoryProvider);
-  return DashboardNotifier(repository);
-});
+final dashboardNotifierProvider = StateNotifierProvider.autoDispose<
+    DashboardNotifier, AsyncValue<DashboardData>>(
+  (ref) {
+    final repository = ref.watch(dashboardRepositoryProvider);
+    return DashboardNotifier(repository);
+  },
+);
 
 final selectedStatIndexProvider = StateProvider<int>((ref) => 0);
-
-final themeModeProvider = StateProvider<bool>(
-  (ref) => false,
-);
+final themeModeProvider         = StateProvider<bool>((ref) => false);

@@ -1,41 +1,27 @@
-/// Model statistik di dashboard
 class DashboardStats {
   final String title;
   final String value;
   final String subtitle;
-  final double percentage;
-  final bool isIncrease;
 
   DashboardStats({
     required this.title,
     required this.value,
     required this.subtitle,
-    required this.percentage,
-    required this.isIncrease,
   });
 
   factory DashboardStats.fromJson(Map<String, dynamic> json) {
     return DashboardStats(
-      title: json['title'] ?? '',
-      value: json['value'] ?? '0',
+      title:    json['title']    ?? '',
+      value:    json['value']    ?? '0',
       subtitle: json['subtitle'] ?? '',
-      percentage: (json['percentage'] ?? 0).toDouble(),
-      isIncrease: json['isIncrease'] ?? true,
     );
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'title': title,
-      'value': value,
-      'subtitle': subtitle,
-      'percentage': percentage,
-      'isIncrease': isIncrease,
-    };
+    return {'title': title, 'value': value, 'subtitle': subtitle};
   }
 }
 
-/// Model data dashboard
 class DashboardData {
   final List<DashboardStats> stats;
   final String userName;
@@ -51,19 +37,16 @@ class DashboardData {
     return DashboardData(
       stats: (json['stats'] as List?)
               ?.map((e) => DashboardStats.fromJson(e))
-              .toList() ??
-          [],
-      userName: json['userName'] ?? 'User',
-      lastUpdate: DateTime.parse(
-        json['lastUpdate'] ?? DateTime.now().toString(),
-      ),
+              .toList() ?? [],
+      userName:   json['userName']   ?? 'User',
+      lastUpdate: DateTime.parse(json['lastUpdate'] ?? DateTime.now().toString()),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'stats': stats.map((e) => e.toJson()).toList(),
-      'userName': userName,
+      'stats':      stats.map((e) => e.toJson()).toList(),
+      'userName':   userName,
       'lastUpdate': lastUpdate.toIso8601String(),
     };
   }
@@ -74,8 +57,8 @@ class DashboardData {
     DateTime? lastUpdate,
   }) {
     return DashboardData(
-      stats: stats ?? this.stats,
-      userName: userName ?? this.userName,
+      stats:      stats      ?? this.stats,
+      userName:   userName   ?? this.userName,
       lastUpdate: lastUpdate ?? this.lastUpdate,
     );
   }

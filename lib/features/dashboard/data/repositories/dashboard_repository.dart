@@ -1,49 +1,22 @@
-import '../models/dashboard_model.dart';
+import 'package:coba/features/dashboard/data/models/dashboard_model.dart';
 
 class DashboardRepository {
   Future<DashboardData> getDashboardData() async {
-    // network delay
     await Future.delayed(const Duration(seconds: 1));
 
     return DashboardData(
-      userName: 'Admin Risha',
+      userName:   'Admin Risha',
       lastUpdate: DateTime.now(),
       stats: [
-        DashboardStats(
-          title: 'Total Mahasiswa',
-          value: '1,234',
-          subtitle: 'Mahasiswa terdaftar',
-          percentage: 8.5,
-          isIncrease: true,
-        ),
-        DashboardStats(
-          title: 'Mahasiswa Aktif',
-          value: '1,180',
-          subtitle: 'Sedang kuliah',
-          percentage: 5.2,
-          isIncrease: true,
-        ),
-        DashboardStats(
-          title: 'Jumlah Kelas',
-          value: '48',
-          subtitle: 'Kelas semester ini',
-          percentage: 2.1,
-          isIncrease: false,
-        ),
-        DashboardStats(
-          title: 'Tingkat Kelulusan',
-          value: '94%',
-          subtitle: 'Tahun ini',
-          percentage: 3.5,
-          isIncrease: true,
-        ),
+        DashboardStats(title: 'Total Mahasiswa', value: '1,200', subtitle: ''),
+        DashboardStats(title: 'Mahasiswa Aktif', value: '550',   subtitle: ''),
+        DashboardStats(title: 'Dosen',           value: '650',   subtitle: ''),
+        DashboardStats(title: 'Profile',         value: '',      subtitle: ''),
       ],
     );
   }
 
-  Future<DashboardData> refreshDashboard() async {
-    return getDashboardData();
-  }
+  Future<DashboardData> refreshDashboard() async => getDashboardData();
 
   Future<DashboardStats?> getStatByTitle(String title) async {
     final data = await getDashboardData();

@@ -1,35 +1,28 @@
+import 'package:coba/core/constans/app_constants.dart';
+import 'package:coba/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
-// import 'modul_2/dashboard.dart';
-import 'package:provider/provider.dart';
-import 'providers/dashboard_provider.dart';
-// import 'pages/dashboard_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'features/dashboard/presentation/pages/dashboard_page.dart';
-import 'core/theme/app_theme.dart';
+import 'package:coba/features/dashboard/presentation/pages/dashboard_page.dart';
 
 void main() {
-  runApp(
-    const ProviderScope(
-      child: MyApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Dashboard Mahasiswa D4TI',
+      title: AppConstants.appName,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.light,
       home: const DashboardPage(),
     );
   }
 }
-
 //-----------------------------------------
 // void main() {
 //   runApp(const MyApp());
