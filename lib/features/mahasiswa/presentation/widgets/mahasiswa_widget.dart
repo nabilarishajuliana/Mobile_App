@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:coba/core/constans/app_constants.dart';
 import 'package:coba/features/mahasiswa/data/models/mahasiswa_model.dart';
 
 class ModernMahasiswaCard extends StatefulWidget {
@@ -40,15 +41,6 @@ class _ModernMahasiswaCardState extends State<ModernMahasiswaCard>
     super.dispose();
   }
 
-  Color _statusColor(String status) {
-    switch (status.toLowerCase()) {
-      case 'aktif': return Colors.green;
-      case 'lulus': return Colors.blue;
-      case 'cuti':  return Colors.orange;
-      default:      return Colors.grey;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final colors = widget.gradientColors ??
@@ -58,17 +50,17 @@ class _ModernMahasiswaCardState extends State<ModernMahasiswaCard>
         ];
 
     return GestureDetector(
-      onTapDown:  (_) => _controller.forward(),
-      onTapUp:    (_) { _controller.reverse(); widget.onTap?.call(); },
-      onTapCancel: () => _controller.reverse(),
+      onTapDown:   (_) => _controller.forward(),
+      onTapUp:     (_) { _controller.reverse(); widget.onTap?.call(); },
+      onTapCancel: ()  => _controller.reverse(),
       child: ScaleTransition(
         scale: _scaleAnimation,
         child: Container(
           margin: const EdgeInsets.only(bottom: 16),
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end:   Alignment.bottomRight,
+              begin:  Alignment.topLeft,
+              end:    Alignment.bottomRight,
               colors: [Colors.white, colors[0].withOpacity(0.05)],
             ),
             borderRadius: BorderRadius.circular(20),
@@ -85,13 +77,14 @@ class _ModernMahasiswaCardState extends State<ModernMahasiswaCard>
             padding: const EdgeInsets.all(16),
             child: Row(
               children: [
-                // Avatar
+                // Avatar — inisial dari name
                 Container(
-                  width: 56, height: 56,
+                  width:  56,
+                  height: 56,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end:   Alignment.bottomRight,
+                      begin:  Alignment.topLeft,
+                      end:    Alignment.bottomRight,
                       colors: colors,
                     ),
                     borderRadius: BorderRadius.circular(16),
@@ -105,9 +98,15 @@ class _ModernMahasiswaCardState extends State<ModernMahasiswaCard>
                   ),
                   child: Center(
                     child: Text(
-                      widget.mahasiswa.nama.substring(0, 1).toUpperCase(),
+                      widget.mahasiswa.name.isNotEmpty
+                          ? widget.mahasiswa.name
+                              .substring(0, 1)
+                              .toUpperCase()
+                          : '?',
                       style: const TextStyle(
-                        color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold,
+                        color:      Colors.white,
+                        fontSize:   22,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
@@ -119,44 +118,51 @@ class _ModernMahasiswaCardState extends State<ModernMahasiswaCard>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // Baris atas: nama + badge ID
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
                             child: Text(
-                              widget.mahasiswa.nama,
+                              widget.mahasiswa.name,
                               style: const TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.bold, letterSpacing: -0.3,
+                                fontSize:      15,
+                                fontWeight:    FontWeight.bold,
+                                letterSpacing: -0.3,
                               ),
-                              maxLines: 1, overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
+                          // Badge ID
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 3),
                             decoration: BoxDecoration(
-                              color: _statusColor(widget.mahasiswa.status).withOpacity(0.1),
+                              color:        colors[0].withOpacity(0.1),
                               borderRadius: BorderRadius.circular(8),
                               border: Border.all(
-                                color: _statusColor(widget.mahasiswa.status).withOpacity(0.3),
-                              ),
+                                  color: colors[0].withOpacity(0.3)),
                             ),
                             child: Text(
-                              widget.mahasiswa.status,
+                              '#${widget.mahasiswa.id}',
                               style: TextStyle(
-                                fontSize: 11,
-                                color: _statusColor(widget.mahasiswa.status),
-                                fontWeight: FontWeight.w600,
+                                fontSize:   11,
+                                color:      colors[0],
+                                fontWeight: FontWeight.w700,
                               ),
                             ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 6),
-                      _infoRow(Icons.badge_outlined,        'NIM: ${widget.mahasiswa.nim}'),
+                      _infoRow(Icons.email_outlined,
+                          widget.mahasiswa.email),
                       const SizedBox(height: 3),
-                      _infoRow(Icons.school_outlined,       widget.mahasiswa.jurusan),
-                      const SizedBox(height: 3),
-                      _infoRow(Icons.calendar_today_outlined, 'Semester ${widget.mahasiswa.semester}'),
+                      _infoRow(
+                        Icons.article_outlined,
+                        widget.mahasiswa.body,
+                      ),
                     ],
                   ),
                 ),
@@ -168,7 +174,11 @@ class _ModernMahasiswaCardState extends State<ModernMahasiswaCard>
                     color:        colors[0].withOpacity(0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Icon(Icons.arrow_forward_ios_rounded, size: 14, color: colors[0]),
+                  child: Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size:  14,
+                    color: colors[0],
+                  ),
                 ),
               ],
             ),
@@ -187,7 +197,8 @@ class _ModernMahasiswaCardState extends State<ModernMahasiswaCard>
           child: Text(
             text,
             style: TextStyle(fontSize: 12, color: Colors.grey[700]),
-            maxLines: 1, overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],

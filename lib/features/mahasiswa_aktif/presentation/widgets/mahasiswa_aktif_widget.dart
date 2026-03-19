@@ -13,14 +13,6 @@ class MahasiswaAktifCard extends StatelessWidget {
     this.gradientColors,
   }) : super(key: key);
 
-  Color _ipkColor(String ipk) {
-    final val = double.tryParse(ipk) ?? 0;
-    if (val >= 3.5) return Colors.green;
-    if (val >= 3.0) return Colors.blue;
-    if (val >= 2.5) return Colors.orange;
-    return Colors.red;
-  }
-
   @override
   Widget build(BuildContext context) {
     final colors = gradientColors ??
@@ -34,7 +26,7 @@ class MahasiswaAktifCard extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.only(bottom: 16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color:        Colors.white,
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
@@ -49,22 +41,25 @@ class MahasiswaAktifCard extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: Row(
             children: [
-              // Avatar
+              // Avatar — angka id
               Container(
-                width: 56, height: 56,
+                width:  56,
+                height: 56,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end:   Alignment.bottomRight,
+                    begin:  Alignment.topLeft,
+                    end:    Alignment.bottomRight,
                     colors: colors,
                   ),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Center(
                   child: Text(
-                    mahasiswa.nama.substring(0, 1).toUpperCase(),
+                    '${mahasiswa.id}',
                     style: const TextStyle(
-                      color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold,
+                      color:      Colors.white,
+                      fontSize:   18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
@@ -75,34 +70,36 @@ class MahasiswaAktifCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Baris atas: judul + badge userId
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
                           child: Text(
-                            mahasiswa.nama,
+                            mahasiswa.title,
                             style: const TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold,
+                              fontSize:   15,
+                              fontWeight: FontWeight.bold,
                             ),
-                            maxLines: 1, overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        // Badge IPK
+                        // Badge userId
                         Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 8, vertical: 3),
                           decoration: BoxDecoration(
-                            color: _ipkColor(mahasiswa.ipk).withOpacity(0.1),
+                            color:        colors[0].withOpacity(0.1),
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
-                              color: _ipkColor(mahasiswa.ipk).withOpacity(0.3),
-                            ),
+                                color: colors[0].withOpacity(0.3)),
                           ),
                           child: Text(
-                            'IPK ${mahasiswa.ipk}',
+                            'User ${mahasiswa.userId}',
                             style: TextStyle(
-                              fontSize: 11,
-                              color: _ipkColor(mahasiswa.ipk),
+                              fontSize:   11,
+                              color:      colors[0],
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -110,14 +107,13 @@ class MahasiswaAktifCard extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 6),
-                    _infoRow(Icons.badge_outlined,
-                        'NIM: ${mahasiswa.nim}'),
-                    const SizedBox(height: 3),
-                    _infoRow(Icons.school_outlined, mahasiswa.jurusan),
-                    const SizedBox(height: 3),
-                    _infoRow(
-                      Icons.calendar_today_outlined,
-                      'Semester ${mahasiswa.semester} | Angkatan ${mahasiswa.angkatan}',
+                    // Body/deskripsi
+                    Text(
+                      mahasiswa.body,
+                      style: TextStyle(
+                          fontSize: 12, color: Colors.grey[600]),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
@@ -126,22 +122,6 @@ class MahasiswaAktifCard extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _infoRow(IconData icon, String text) {
-    return Row(
-      children: [
-        Icon(icon, size: 13, color: Colors.grey[600]),
-        const SizedBox(width: 6),
-        Expanded(
-          child: Text(
-            text,
-            style: TextStyle(fontSize: 12, color: Colors.grey[700]),
-            maxLines: 1, overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      ],
     );
   }
 }

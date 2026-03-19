@@ -19,9 +19,9 @@ class MahasiswaPage extends ConsumerWidget {
         elevation: 0,
         actions: [
           IconButton(
-            icon: const Icon(Icons.refresh_rounded),
+            icon:      const Icon(Icons.refresh_rounded),
             onPressed: () => ref.invalidate(mahasiswaNotifierProvider),
-            tooltip: 'Refresh',
+            tooltip:   'Refresh',
           ),
         ],
       ),
@@ -34,7 +34,8 @@ class MahasiswaPage extends ConsumerWidget {
         ),
         data: (mahasiswaList) {
           if (mahasiswaList.isEmpty) {
-            return const Center(child: Text('Tidak ada data mahasiswa'));
+            return const Center(
+                child: Text('Tidak ada data mahasiswa'));
           }
           return RefreshIndicator(
             onRefresh: () async =>
@@ -63,6 +64,7 @@ class MahasiswaPage extends ConsumerWidget {
   void _showDetail(BuildContext context, MahasiswaModel m) {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -76,7 +78,7 @@ class MahasiswaPage extends ConsumerWidget {
               child: Container(
                 width: 40, height: 4,
                 decoration: BoxDecoration(
-                  color: Colors.grey[300],
+                  color:        Colors.grey[300],
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -90,12 +92,10 @@ class MahasiswaPage extends ConsumerWidget {
                   ?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            _detailRow(context, Icons.person,          'Nama',     m.nama),
-            _detailRow(context, Icons.badge,           'NIM',      m.nim),
-            _detailRow(context, Icons.email,           'Email',    m.email),
-            _detailRow(context, Icons.school,          'Jurusan',  m.jurusan),
-            _detailRow(context, Icons.calendar_today,  'Semester', m.semester),
-            _detailRow(context, Icons.check_circle,    'Status',   m.status),
+            _detailRow(context, Icons.tag,     'ID',    '#${m.id}'),
+            _detailRow(context, Icons.person,  'Nama',  m.name),
+            _detailRow(context, Icons.email,   'Email', m.email),
+            _detailRow(context, Icons.article, 'Komentar', m.body),
             const SizedBox(height: 16),
           ],
         ),
@@ -108,18 +108,22 @@ class MahasiswaPage extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(icon, size: 20, color: Theme.of(context).primaryColor),
           const SizedBox(width: 12),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(label,
-                  style: TextStyle(fontSize: 12, color: Colors.grey[600])),
-              Text(value,
-                  style: const TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.w500)),
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(label,
+                    style: TextStyle(
+                        fontSize: 12, color: Colors.grey[600])),
+                Text(value,
+                    style: const TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.w500)),
+              ],
+            ),
           ),
         ],
       ),
